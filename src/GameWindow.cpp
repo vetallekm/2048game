@@ -1,5 +1,5 @@
 #include "GameWindow.hpp"
-
+#include <QTimer>
 
 GameWindow::GameWindow(QWidget* parent)
     : QMainWindow(parent), gameOver(false)
@@ -80,7 +80,7 @@ void GameWindow::setupUI()
 
     setWindowTitle("2048");
     setFixedSize(350, 450);
-    setStyleSheet("background-color: #faf8ef;");
+    setStyleSheet("background-color: #b8a066;");
 }
 
 void GameWindow::keyPressEvent(QKeyEvent* event)
@@ -156,7 +156,10 @@ void GameWindow::updateDisplay()
 void GameWindow::newGame()
 {
     gameOver = false;
+    setWindowTitle("2048");
+    setStyleSheet("background-color: #e6d5a8;");
     game->newGame();
+    updateDisplay();
 }
 
 void GameWindow::checkGameStatus()
@@ -165,17 +168,18 @@ void GameWindow::checkGameStatus()
 
     if (game->isWin()) {
         gameOver = true;
-        QMessageBox::information(this, "You Win!",
-            "Congratulations! You reached 2048!\n"
-            "Your score: " + QString::number(game->getScore()) +
-            "\n\nClick 'New Game' to play again.");
+     
+        setWindowTitle("2048 - You Win! Score: " + QString::number(game->getScore()));
+
+        setStyleSheet("background-color: #000000;");  
     }
     else if (game->isGameOver()) {
         gameOver = true;
-        QMessageBox::information(this, "Game Over",
-            "Game Over!\n"
-            "Your score: " + QString::number(game->getScore()) +
-            "\n\nClick 'New Game' to play again.");
+     
+        setWindowTitle("2048 - Game Over! Score: " + QString::number(game->getScore()));
+
+     
+        setStyleSheet("background-color: #000000;");
     }
 }
 
